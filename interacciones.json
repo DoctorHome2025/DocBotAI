@@ -113,5 +113,83 @@
     "mensaje": "hola",
     "sintomas": [],
     "enfermedad": null
+  },
+  {
+    "timestamp": "2025-04-15 16:45:10",
+    "mensaje": "fiebre,dolor toracico,dificultad para respirar,tos con flema",
+    "sintomas": [],
+    "enfermedad": null
+  },
+  {
+    "timestamp": "2025-04-15 16:45:10",
+    "mensaje": "fiebre,dolor toracico,dificultad para respirar,tos con flema",
+    "sintomas": [
+      "dificultad para respirar",
+      "fiebre",
+      "tos"
+    ],
+    "enfermedad": "Asma bronquial"
+  },
+  {
+    "timestamp": "2025-04-15 16:46:10",
+    "mensaje": "diagnostico-web",
+    "sintomas": [
+      "dificultad para respirar",
+      "dolor tor\u00e1cico",
+      "fiebre",
+      "tos con mucosidad"
+    ],
+    "enfermedad": "COVID-19"
+  },
+  {
+    "timestamp": "2025-04-15 16:48:29",
+    "mensaje": "diagnostico-web",
+    "sintomas": [
+      "dificultad para respirar",
+      "fiebre",
+      "tos con mucosidad"
+    ],
+    "enfermedad": "COVID-19"
+  },
+  {
+    "timestamp": "2025-04-15 16:49:42",
+    "mensaje": "diagnostico-web",
+    "sintomas": [
+      "cambios de personalidad",
+      "dificultad para hablar",
+      "problemas de sue\u00f1o",
+      "p\u00e9rdida de memoria progresiva"
+    ],
+    "enfermedad": "Enfermedad de Alzheimer"
+  },
+  {
+    "timestamp": "2025-04-15 16:50:45",
+    "mensaje": "Sed excesiva,miccion frecuente,fatiga y visionborrosa.",
+    "sintomas": [],
+    "enfermedad": null
+  },
+  {
+    "timestamp": "2025-04-15 16:50:45",
+    "mensaje": "Sed excesiva,miccion frecuente,fatiga y visionborrosa.",
+    "sintomas": [
+      "fatiga",
+      "sed excesiva"
+    ],
+    "enfermedad": "Diabetes tipo 2"
+  },
+  {
+    "timestamp": "2025-04-15 16:51:35",
+    "mensaje": "Espinillas,puntos negros,pustulas,quistes dolorosos y enrojecimiento.",
+    "sintomas": [],
+    "enfermedad": null
+  },
+  {
+    "timestamp": "2025-04-15 16:51:35",
+    "mensaje": "Espinillas,puntos negros,pustulas,quistes dolorosos y enrojecimiento.",
+    "sintomas": [
+      "enrojecimiento",
+      "tos"
+    ],
+    "enfermedad": "Asma bronquial"
   }
 ]

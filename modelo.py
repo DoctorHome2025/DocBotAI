@@ -1,43 +1,58 @@
 import pandas as pd
 import numpy as np
-from tensorflow.keras.models import Sequential # type: ignore
-from tensorflow.keras.layers import Dense # type: ignore
-from sklearn.preprocessing import LabelEncoder
-from tensorflow.keras.utils import to_categorical # type: ignore
+from sklearn.ensemble import RandomForestClassifier
+import pickle
+import os
+import json
 
-# --- Cargar datos ---
-df = pd.read_excel("enf2025.xlsx")
+# --- Definir ruta para el modelo guardado ---
+MODEL_PATH = 'modelo_medico.pkl'
+SINTOMAS_PATH = 'sintomas.json'
+CLASSES_PATH = 'clases.json'
 
-# --- Preprocesamiento de síntomas ---
-df['Sintomas'] = df['Sintomas'].str.lower().fillna('')
-df['Sintomas'] = df['Sintomas'].apply(lambda x: [s.strip() for s in x.split(',')])
+# --- Función para cargar o entrenar el modelo ---
+def cargar_o_entrenar_modelo():
+    global todos_sintomas, modelo, clases
+    
+    # Comprobar si el modelo ya está guardado
+    if os.path.exists(MODEL_PATH) and os.path.exists(SINTOMAS_PATH) and os.path.exists(CLASSES_PATH):
+        print("Cargando modelo y síntomas desde archivo...")
+        modelo = pickle.load(open(MODEL_PATH, 'rb'))
+        todos_sintomas = json.load(open(SINTOMAS_PATH, 'r'))
+        clases = json.load(open(CLASSES_PATH, 'r'))
+    else:
+        print("Entrenando nuevo modelo...")
+        # --- Cargar datos ---
+        df = pd.read_excel("enf2025.xlsx")
+        
+        # --- Preprocesamiento de síntomas ---
+        df['Sintomas'] = df['Sintomas'].str.lower().fillna('')
+        df['Sintomas'] = df['Sintomas'].apply(lambda x: [s.strip() for s in x.split(',')])
+        
+        # --- Extraer síntomas únicos ---
+        todos_sintomas = sorted(set(s for lista in df['Sintomas'] for s in lista))
+        print(f"Total de síntomas en el dataset: {len(todos_sintomas)}")
+        
+        # --- Convertir lista de síntomas a vector binario ---
+        X = np.array([[1 if s in sintoma_lista else 0 for s in todos_sintomas] for sintoma_lista in df['Sintomas']])
+        y = df['Enfermedad'].values
+        
+        # --- Crear y entrenar modelo ---
+        modelo = RandomForestClassifier(n_estimators=50, random_state=42)
+        modelo.fit(X, y)
+        
+        # Guardar las clases (enfermedades)
+        clases = modelo.classes_.tolist()
+        
+        # --- Guardar modelo, síntomas y clases ---
+        pickle.dump(modelo, open(MODEL_PATH, 'wb'))
+        json.dump(todos_sintomas, open(SINTOMAS_PATH, 'w'))
+        json.dump(clases, open(CLASSES_PATH, 'w'))
+    
+    return todos_sintomas, modelo, clases
 
-# --- Extraer síntomas únicos ---
-todos_sintomas = sorted(set(s for lista in df['Sintomas'] for s in lista))
-print(f"Total de síntomas en el dataset: {len(todos_sintomas)}")
-
-# --- Convertir lista de síntomas a vector binario ---
-def sintomas_a_vector(sintoma_lista):
-    return [1 if s in sintoma_lista else 0 for s in todos_sintomas]
-
-# --- Preparar datos de entrenamiento ---
-X = np.array([sintomas_a_vector(s) for s in df['Sintomas']])
-y_etiquetas = df['Enfermedad'].values
-
-# --- Codificación de etiquetas (enfermedades) ---
-encoder = LabelEncoder()
-y_encoded = encoder.fit_transform(y_etiquetas)
-y = to_categorical(y_encoded)
-
-# --- Crear y entrenar modelo ---
-modelo = Sequential([
-    Dense(32, activation='relu', input_shape=(len(todos_sintomas),)),
-    Dense(16, activation='relu'),
-    Dense(len(set(y_etiquetas)), activation='softmax')
-])
-
-modelo.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy'])
-modelo.fit(X, y, epochs=200, verbose=0)  # Entrenamiento silencioso
+# Cargar modelo al inicio
+todos_sintomas, modelo, clases = cargar_o_entrenar_modelo()
 
 # --- Función para predecir enfermedad desde síntomas ---
 def predecir_enfermedad(sintomas_usuario):
@@ -49,13 +64,13 @@ def predecir_enfermedad(sintomas_usuario):
         return "No se han seleccionado síntomas", 0.0
     
     # Crear vector de síntomas
-    vector = np.array([1 if s in sintomas_usuario else 0 for s in todos_sintomas])
+    vector = np.array([[1 if s in sintomas_usuario else 0 for s in todos_sintomas]])
     
     # Hacer predicción
-    pred = modelo.predict(np.array([vector]), verbose=0)
-    idx = np.argmax(pred)
-    enfermedad = encoder.inverse_transform([idx])[0]
-    probabilidad = pred[0][idx] * 100
+    pred_proba = modelo.predict_proba(vector)[0]
+    idx = np.argmax(pred_proba)
+    enfermedad = clases[idx]
+    probabilidad = pred_proba[idx] * 100
     
     return enfermedad, probabilidad
 
@@ -63,8 +78,7 @@ def predecir_enfermedad(sintomas_usuario):
 def get_todos_sintomas():
     return todos_sintomas
 
-# --- Funciones para el chatbot ---
-# Función para extraer síntomas exactos del mensaje del usuario
+# --- Función para extraer síntomas del mensaje ---
 def extraer_sintomas_de_mensaje(mensaje):
     mensaje = mensaje.lower()
     sintomas_detectados = []
@@ -77,7 +91,7 @@ def extraer_sintomas_de_mensaje(mensaje):
     print(f"Síntomas detectados en mensaje: {sintomas_detectados}")    
     return sintomas_detectados
 
-# Función para generar una respuesta del chatbot
+# --- Función para generar respuesta del chatbot ---
 def generar_respuesta_chatbot(mensaje_usuario):
     # Extraer síntomas del mensaje
     sintomas_detectados = extraer_sintomas_de_mensaje(mensaje_usuario)
