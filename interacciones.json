@@ -1,0 +1,117 @@
+[
+  {
+    "timestamp": "2025-04-15 10:51:22",
+    "mensaje": "buenas tardes",
+    "sintomas": [],
+    "enfermedad": null
+  },
+  {
+    "timestamp": "2025-04-15 10:54:21",
+    "mensaje": "perdida de memoria reciente, dificultad para hablar, desorientacion",
+    "sintomas": [],
+    "enfermedad": null
+  },
+  {
+    "timestamp": "2025-04-15 10:54:48",
+    "mensaje": "quiero la definicion",
+    "sintomas": [
+      "desorientacion",
+      "dificultad para hablar",
+      "perdida de memoria reciente"
+    ],
+    "enfermedad": "Alzheimer"
+  },
+  {
+    "timestamp": "2025-04-15 10:55:05",
+    "mensaje": "si quiero mas informacion",
+    "sintomas": [
+      "desorientacion",
+      "dificultad para hablar",
+      "perdida de memoria reciente"
+    ],
+    "enfermedad": "Alzheimer"
+  },
+  {
+    "timestamp": "2025-04-15 10:55:10",
+    "mensaje": "si",
+    "sintomas": [
+      "desorientacion",
+      "dificultad para hablar",
+      "perdida de memoria reciente"
+    ],
+    "enfermedad": "Alzheimer"
+  },
+  {
+    "timestamp": "2025-04-15 10:55:25",
+    "mensaje": "quiero mas informacion",
+    "sintomas": [
+      "desorientacion",
+      "dificultad para hablar",
+      "perdida de memoria reciente"
+    ],
+    "enfermedad": "Alzheimer"
+  },
+  {
+    "timestamp": "2025-04-15 11:01:03",
+    "mensaje": "hola",
+    "sintomas": [],
+    "enfermedad": null
+  },
+  {
+    "timestamp": "2025-04-15 11:02:13",
+    "mensaje": "fiebre,tos con flema, dolor toracico, dificultad para respirar",
+    "sintomas": [],
+    "enfermedad": null
+  },
+  {
+    "timestamp": "2025-04-15 11:02:51",
+    "mensaje": "quiero la definicion",
+    "sintomas": [
+      "dificultad para respirar",
+      "dolor",
+      "fiebre",
+      "tos con flema"
+    ],
+    "enfermedad": "Neumonia"
+  },
+  {
+    "timestamp": "2025-04-15 11:02:58",
+    "mensaje": "si",
+    "sintomas": [
+      "dificultad para respirar",
+      "dolor",
+      "fiebre",
+      "tos con flema"
+    ],
+    "enfermedad": "Neumonia"
+  },
+  {
+    "timestamp": "2025-04-15 11:03:08",
+    "mensaje": "salir",
+    "sintomas": [
+      "dificultad para respirar",
+      "dolor",
+      "fiebre",
+      "tos con flema"
+    ],
+    "enfermedad": "Neumonia"
+  },
+  {
+    "timestamp": "2025-04-15 12:00:14",
+    "mensaje": "buenas tardes",
+    "sintomas": [],
+    "enfermedad": null
+  },
+  {
+    "timestamp": "2025-04-15 12:02:16",
+    "mensaje": "hola",
+    "sintomas": [],
+    "enfermedad": null
+  },
+  {
+    "timestamp": "2025-04-15 12:07:50",
+    "mensaje": "hola",
+    "sintomas": [],
+    "enfermedad": null
+  }
+]
